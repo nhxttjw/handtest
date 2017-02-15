@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bm:model xmlns:bm="http://www.aurora-framework.org/schema/bm">
+    <bm:operations>
+        <bm:operation name="execute">
+            <bm:parameters>
+                <bm:parameter name="mailing_list_id" dataType="java.lang.Long" input="true" output="false" required="true"/>
+            </bm:parameters>
+            <bm:update-sql><![CDATA[
+                begin
+                    SYS_MAIL_PKG.UPDATE_MAIL_SENT_NOTE
+                    (
+                        p_mailing_list_id=>${@mailing_list_id}
+                    );
+                end;]]></bm:update-sql>
+        </bm:operation>
+    </bm:operations>
+</bm:model>

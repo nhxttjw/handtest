@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bm:model xmlns:f="aurora.database.features" xmlns:bm="http://www.aurora-framework.org/schema/bm" alias="t1" baseTable="SYS_MAILING_LIST">
+    <bm:fields>
+        <bm:field name="mailing_list_id" databaseType="NUMBER" datatype="java.lang.Long" physicalName="MAILING_LIST_ID" prompt="SYS_MAILING_LIST_JMAIL.MAILING_LIST_ID"/>
+        <bm:field name="notify_record_id" databaseType="NUMBER" datatype="java.lang.Long" physicalName="NOTIFY_RECORD_ID" prompt="SYS_MAILING_LIST_JMAIL.NOTIFY_RECORD_ID"/>
+        <bm:field name="mail_to" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="MAIL_TO" prompt="SYS_MAILING_LIST_JMAIL.MAIL_TO"/>
+        <bm:field name="mail_cc" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="MAIL_CC" prompt="SYS_MAILING_LIST_JMAIL.MAIL_CC"/>
+        <bm:field name="subject" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="SUBJECT" prompt="SYS_MAILING_LIST_JMAIL.SUBJECT"/>
+        <bm:field name="note" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="NOTE" prompt="SYS_MAILING_LIST_JMAIL.NOTE"/>
+        <bm:field name="sent_flag" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="SENT_FLAG" prompt="SYS_MAILING_LIST_JMAIL.SENT_FLAG"/>
+        <bm:field name="error_times" databaseType="NUMBER" datatype="java.lang.Long" physicalName="ERROR_TIMES" prompt="SYS_MAILING_LIST_JMAIL.ERROR_TIMES"/>
+        <bm:field name="mail_source" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="MAIL_SOURCE" prompt="SYS_MAILING_LIST_JMAIL.MAIL_SOURCE"/>
+        <bm:field name="content_type" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="CONTENT_TYPE" prompt="SYS_MAILING_LIST_JMAIL.CONTENT_TYPE"/>
+        <bm:field name="mail_source_id" databaseType="NUMBER" datatype="java.lang.Long" physicalName="MAIL_SOURCE_ID" prompt="SYS_MAILING_LIST_JMAIL.MAIL_SOURCE_ID"/>
+        <bm:field name="body" databaseType="CLOB" datatype="java.sql.Clob" physicalName="BODY" prompt="SYS_MAILING_LIST_JMAIL.BODY"/>
+    </bm:fields>
+    <bm:features>
+        <f:standard-who/>
+    </bm:features>
+    <bm:data-filters>
+        <bm:data-filter expression="t1.sent_flag = &apos;N&apos;"/>
+        <bm:data-filter expression="t1.error_times &lt;= 10"/>
+    </bm:data-filters>
+    <bm:primary-key>
+        <bm:pk-field name="mailing_list_id"/>
+    </bm:primary-key>
+</bm:model>

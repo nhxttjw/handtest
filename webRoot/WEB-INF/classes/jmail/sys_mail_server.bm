@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    $Author: jayce
+    $Date: 2017年1月6日 上午12:48:11
+    $Revision: 1.0
+    $Purpose: 
+-->
+<bm:model xmlns:f="aurora.database.features" xmlns:bm="http://www.aurora-framework.org/schema/bm" alias="t1" baseTable="SYS_MAIL_SERVER">
+    <bm:fields>
+        <bm:field name="mail_server_id" databaseType="NUMBER" datatype="java.lang.Long" physicalName="MAIL_SERVER_ID" prompt="SYS_MAIL_SERVER.MAIL_SERVER_ID"/>
+        <bm:field name="mail_smtp_host" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="MAIL_SMTP_HOST" prompt="SYS_MAIL_SERVER.MAIL_SMTP_HOST"/>
+        <bm:field name="mail_protocol" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="MAIL_PROTOCOL" prompt="SYS_MAIL_SERVER.MAIL_PROTOCOL"/>
+        <bm:field name="mail_port_number" databaseType="NUMBER" datatype="java.lang.Long" physicalName="MAIL_PORT_NUMBER" prompt="SYS_MAIL_SERVER.MAIL_PORT_NUMBER"/>
+        <bm:field name="mail_address" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="MAIL_ADDRESS" prompt="SYS_MAIL_SERVER.MAIL_ADDRESS"/>
+        <bm:field name="auth_login_flag" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="AUTH_LOGIN_FLAG" prompt="SYS_MAIL_SERVER.AUTH_LOGIN_FLAG"/>
+        <bm:field name="mail_username" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="MAIL_USERNAME" prompt="SYS_MAIL_SERVER.MAIL_USERNAME"/>
+        <bm:field name="mail_password" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="MAIL_PASSWORD" prompt="SYS_MAIL_SERVER.MAIL_PASSWORD"/>
+        <bm:field name="display_name" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="DISPLAY_NAME" prompt="SYS_MAIL_SERVER.DISPLAY_NAME"/>
+        <bm:field name="reply_to" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="REPLY_TO" prompt="SYS_MAIL_SERVER.REPLY_TO"/>
+        <bm:field name="mail_signature" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="MAIL_SIGNATURE" prompt="SYS_MAIL_SERVER.MAIL_SIGNATURE"/>
+        <bm:field name="enabled_flag" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="ENABLED_FLAG" prompt="SYS_MAIL_SERVER.ENABLED_FLAG"/>
+        <bm:field name="default_flag" databaseType="VARCHAR2" datatype="java.lang.String" physicalName="DEFAULT_FLAG" prompt="SYS_MAIL_SERVER.DEFAULT_FLAG"/>
+    </bm:fields>
+    <bm:features>
+        <f:standard-who/>
+    </bm:features>
+    <bm:data-filters>
+        <bm:data-filter expression="t1.enabled_flag = &apos;Y&apos;"/>
+        <bm:data-filter expression="rownum = 1"/>
+    </bm:data-filters>
+    <bm:primary-key>
+        <bm:pk-field name="mail_server_id"/>
+    </bm:primary-key>
+</bm:model>

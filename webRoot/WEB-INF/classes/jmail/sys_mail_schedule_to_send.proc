@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    $Author: jayce
+    $Date: 2017年1月6日 下午4:03:49
+    $Revision: 1.0
+    $Purpose: 
+-->
+<p:procedure xmlns:rs="aurora.database.rsconsumer" xmlns:p="uncertain.proc" xmlns:a="http://www.aurora-framework.org/application" xmlns:s="aurora.plugin.script" trace="true">
+    <a:model-query model="jmail.sys_mail_server" rootPath="mail_server"/>
+    <a:model-query model="jmail.sys_mailing_list" rootPath="sys_mailing_list"/>
+    <s:server-script><![CDATA[
+    		//import jar
+    		importPackage(Packages.javax.mail);
+    		importPackage(Packages.com.goinglink.mail);
+    		//get logger
+    		var logger = $logger('server-script');
+    		//get mail server info 
+            var mail_server_record = $ctx.model.getChild("mail_server").getChildren()[0]
+            var host = mail_server_record.mail_smtp_host
+            var port = mail_server_record.mail_port_number
+            var username = mail_server_record.mail_username
+            var passwd = mail_server_record.mail_password
+            //create mail server
+            var mailServer = new JMailServer(host,port,username,passwd);
+            //get mail info
+            var displayName = mail_server_record.display_name
+            var from = mail_server_record.mail_address
+            //get mailing list
+    		var mailing_list = $ctx.model.getChild("sys_mailing_list")
+    		//check mailing_list.length
+    		if(mailing_list.length < 1){
+    		    log("There is no mail to send!")
+    		}else{
+    		    //loop to send mail
+    		    if(mailing_list.length > 1){
+    		    	log("There is "+mailing_list.length+" mails to send!")
+    		    }else{
+    		    	log("There is "+mailing_list.length+" mail to send!")
+    		    }
+    		    for(var i = 0; i < mailing_list.length; i++){
+    		        log("Sending No." + (i+1) + " mail...")
+    		        var mail_2_send = mailing_list.getChildren()[i]
+    		        if (mail_2_send.mail_to)
+    		        	var toList  = mail_2_send.mail_to
+    		        else{
+    		        	update_mail_sent_note1(mail_2_send.mailing_list_id)
+    		        	log("No Recipient! Skipped!")
+    		        	continue
+    		        }
+    		        var ccList = mail_2_send.mail_cc
+    		        var subject = mail_2_send.subject
+    		        var body = mail_2_send.body
+    		        var contentType = mail_2_send.content_type
+    		        if (contentType == null || contentType.equals(""))
+    		        	contentType = "text/html; charset=UTF-8"
+    		        log("toList:"+toList)
+    		        log("ccList:"+ccList)
+    		        log("subject:"+subject)
+    		        //create mail
+    		        var mail = new JMail(from,displayName,toList,subject,body,contentType);
+    		        if (mail_2_send.mail_cc)
+    		        	mail.setCcList(ccList)
+    		        //send mail
+    		        var mailError = mailServer.send(mail)
+    		        // check error_code
+    		        if (mailError.getErrorCode() == "0" || mailError.getErrorCode().equals("0")){
+    		        	update_mail_sent_flag(mail_2_send.mailing_list_id)
+    		        	log("Sent successfully!")
+    		        }
+    		        else{
+    		        	update_mail_sent_note(mail_2_send.mailing_list_id,mailError.getErrorMessage())
+    		        	log("Error Code: " + mailError.getErrorCode())
+    		        	log("Error Msge: " + mailError.getErrorMessage())
+    		        }
+    		        log("---------------------------------")
+    		    }
+    		}
+    		
+	        function update_mail_sent_flag(mailing_list_id){
+				var param={
+						mailing_list_id:mailing_list_id	
+				}
+				$bm('db.sys_mail_pkg.update_mail_sent_flag').execute(param)
+			}
+    		
+    		function update_mail_sent_note1(mailing_list_id){
+    		    var param={
+    		        mailing_list_id:mailing_list_id	
+    		    }
+    		    $bm('db.sys_mail_pkg.update_mail_sent_note_1').execute(param)
+    		}
+    		
+    		function update_mail_sent_note(mailing_list_id,error_message){
+    		    var param={
+    		        mailing_list_id:mailing_list_id,
+    		        note:error_message
+    		    }
+    		    $bm('db.sys_mail_pkg.update_mail_sent_note_2').execute(param)
+    		}
+    		
+    		function log(msg) {
+				logger.info(msg);
+			}
+	        
+        ]]></s:server-script>
+</p:procedure>
