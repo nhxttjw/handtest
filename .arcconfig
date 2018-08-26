@@ -1,3 +1,4 @@
 {
-  "phabricator.uri" : "https://pms.going-link.com/"
+  "phabricator.uri" : "https://pms.going-link.com/",
+  "repository.callsign" : "T"
 }
