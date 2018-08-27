@@ -1,4 +1,5 @@
 {
   "phabricator.uri" : "https://pms.going-link.com/",
-  "repository.callsign" : "T"
+  "repository.callsign" : "T",
+  "history.immutable" : false
 }
